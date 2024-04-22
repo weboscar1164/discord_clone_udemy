@@ -1,12 +1,32 @@
-import React from "react";
+import { DocumentData } from "firebase/firestore";
 import "./sidebarChannel.scss";
+import { useAppDispatch } from "../app/hooks";
+import { setChannelInfo } from "../features/channelSlice";
 
-const SidebarChannel = () => {
+type Props = {
+	id: string;
+	channel: DocumentData;
+};
+const SidebarChannel = (props: Props) => {
+	const { id, channel } = props;
+	const dispatch = useAppDispatch();
+
+	console.log(id, channel);
 	return (
-		<div className="sidebarChannel">
+		<div
+			className="sidebarChannel"
+			onClick={() =>
+				dispatch(
+					setChannelInfo({
+						channelId: id,
+						channelName: channel.channel.channelName,
+					})
+				)
+			}
+		>
 			<h4>
 				<span className="sidebarChannelhash">#</span>
-				Udemy
+				{channel.channel.channelName}
 			</h4>
 		</div>
 	);
