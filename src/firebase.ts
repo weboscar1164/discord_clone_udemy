@@ -16,4 +16,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+// 複数ユーザーによるログインを設定
+provider.setCustomParameters({
+	prompt: "select_account",
+});
+
 export { auth, provider, db };
