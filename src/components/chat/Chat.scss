@@ -8,6 +8,11 @@
 .chatMessage {
 	flex-grow: 1;
 	overflow-y: scroll;
+
+	h3 {
+		color: #fff;
+		margin: 2em;
+	}
 }
 
 .chatInput {

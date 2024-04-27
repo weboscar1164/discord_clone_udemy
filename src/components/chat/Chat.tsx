@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Chat.scss";
 import ChatHeader from "./ChatHeader";
 import ChatMessage from "./ChatMessage";
@@ -10,13 +10,8 @@ import { useAppSelector } from "../../app/hooks";
 import {
 	CollectionReference,
 	DocumentData,
-	DocumentReference,
-	Timestamp,
 	addDoc,
 	collection,
-	onSnapshot,
-	orderBy,
-	query,
 	serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -54,42 +49,50 @@ const Chat = () => {
 			<ChatHeader channelName={channelName} />
 			{/* chatMessage */}
 			<div className="chatMessage">
-				{messages.map((message, index) => (
-					<ChatMessage
-						key={index}
-						message={message.message}
-						timestamp={message.timestamp}
-						user={message.user}
-					/>
-				))}
+				{messages.length !== 0 || channelName === null ? (
+					messages.map((message, index) => (
+						<ChatMessage
+							key={index}
+							message={message.message}
+							timestamp={message.timestamp}
+							user={message.user}
+						/>
+					))
+				) : (
+					<h3>メッセージを送信しましょう！</h3>
+				)}
 			</div>
 			{/* chatImput */}
-			<div className="chatInput">
-				<AddCircleOutlineIcon />
-				<form action="">
-					<input
-						type="text"
-						placeholder={`#${channelName}へメッセージを送信`}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							setInputText(e.target.value)
-						}
-						value={inputText}
-					/>
-					<button
-						type="submit"
-						className="chatInputButton"
-						onClick={(e: React.MouseEvent<HTMLButtonElement>) => sendMessage(e)}
-					>
-						送信
-					</button>
-				</form>
+			{channelName !== null && (
+				<div className="chatInput">
+					<AddCircleOutlineIcon />
+					<form>
+						<input
+							type="text"
+							placeholder={`#${channelName}へメッセージを送信`}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+								setInputText(e.target.value)
+							}
+							value={inputText}
+						/>
+						<button
+							type="submit"
+							className="chatInputButton"
+							onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+								sendMessage(e)
+							}
+						>
+							送信
+						</button>
+					</form>
 
-				<div className="chatInputIcons">
-					<CardGiftcardIcon />
-					<GifIcon />
-					<EmojiEmotionsIcon />
+					<div className="chatInputIcons">
+						<CardGiftcardIcon />
+						<GifIcon />
+						<EmojiEmotionsIcon />
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

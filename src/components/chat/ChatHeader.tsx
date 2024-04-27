@@ -1,4 +1,3 @@
-import React from "react";
 import "./ChatHeader.scss";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PushPinIcon from "@mui/icons-material/PushPin";
